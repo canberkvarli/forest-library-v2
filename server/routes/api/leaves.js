@@ -1,32 +1,27 @@
 import { Router } from "express";
 const router = Router();
-import validateLeafInput from "../../validation/leaves";
-import Leaf, {
-  find,
-  findById,
-  findByIdAndUpdate,
-  findByIdAndDelete,
-} from "../../models/Leaf.js";
+import validateLeafInput from "../../validation/leaves.js";
+import Leaf from "../../models/Leaf.js";
 
 router.get("/test", (req, res) => {
   res.json({ msg: "This is leaf route" });
 });
 
 router.get("/", (req, res) => {
-  find()
+  Leaf.find()
     .sort({ date: -1 })
     .then((leaves) => res.json(leaves))
     .catch((err) => res.status(400).json(err));
 });
 
 router.get("/user/:user_id", (req, res) => {
-  find({ user: req.params.user_id })
+  Leaf.find({ user: req.params.user_id })
     .then((leaves) => res.json(leaves))
     .catch((err) => res.status(400).json(err));
 });
 
 router.get("/:id", (req, res) => {
-  findById(req.params.id)
+  Leaf.findById(req.params.id)
     .then((leaf) => res.json(leaf))
     .catch((err) => res.status(400).json(err));
 });
@@ -54,31 +49,28 @@ router.patch("/:id", (req, res) => {
   //     .findByIdAnd(req.params.id)
   //     .update({review: req.body.review})
   //     .then(leaf => leaf.save());
-  findByIdAndUpdate(
+  Leaf.findByIdAndUpdate(
     req.params.id,
     { review: req.body.review },
-    { new: true },
-    (error, data) => {
-      if (error) {
-        res.json(error);
-      } else {
-        console.log(data);
-        res.json(data);
-      }
+    { new: true }
+  ).then((leaf) => {
+    if (leafg) {
+      res.json(leaf);
+    } else {
+      res.status(404).json({ error: "Leaf not found" });
     }
-  );
+  });
   // Leaf
   //     .findById(req.params.id)
   //     .then(leaf => res.json(leaf));
 });
 
 router.delete("/:id", (req, res) => {
-  findByIdAndDelete(req.params.id, function (err, docs) {
-    if (err) {
-      console.log(err);
+  Leaf.findByIdAndDelete(req.params.id).then((deletedLeaf) => {
+    if (deletedLeaf) {
+      res.json(deletedLeaf);
     } else {
-      console.log("Deleted : ", docs);
-      res.json(docs);
+      res.status(404).json({ error: "Leaf not found" });
     }
   });
 });
