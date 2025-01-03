@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchTrees, fetchUsers } from "../../actions/treeActions";
 import { LuTreeDeciduous } from "react-icons/lu";
-import Footer from "../layout/Footer";
+import Footer from "../Footer/Footer";
 
 const Forest = () => {
     const dispatch = useDispatch();

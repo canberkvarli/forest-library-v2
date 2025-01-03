@@ -1,0 +1,45 @@
+.footer-container{
+    padding: 15px;
+    margin-top: 100px;
+    font-weight: bold;
+    border-top: 1px solid darkslategray;
+    background-color:darkslategrey;
+    color:whitesmoke;
+    width: 100vw;
+    overflow-x: hidden;
+    /* height:20vh; */
+    /* position: fixed;
+    bottom: 0;
+    left: 0; */
+}
+
+.members-container{
+    padding-top: 15px;
+    display:flex;
+    justify-content: space-around;
+    /* padding: 15px; */
+}
+
+.footer-title{
+    margin-left: 30px;
+}
+
+.member-info{
+    display: flex;
+}
+
+
+
+.member-info > div{
+    margin-left: 10px;
+}
+
+.quick-link{
+    padding: 10px 0;
+    margin-left: 10px;
+}
+
+.quick-link:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
