@@ -29,8 +29,9 @@ export const receiveUsers = (users) => ({
 // Thunk Actions
 export const fetchTrees = () => async (dispatch) => {
   try {
-    const trees = await getTrees();
-    if (trees && trees.data) {
+    const response = await getTrees();
+    if (response && response.data) {
+      const trees = response.data;
       dispatch(receiveTrees(trees));
     }
   } catch (err) {
@@ -41,10 +42,8 @@ export const fetchTrees = () => async (dispatch) => {
 export const fetchUsers = () => async (dispatch) => {
   try {
     const response = await getUsers(); // Ensure the promise is resolved
-    console.log("Response after fetching:", response); // Log the full response
     if (response && response.data) {
       const users = response.data; // Extract the data portion
-      console.log("Users after fetching:", users); // Log the users data
       dispatch(receiveUsers(users)); // Dispatch the action with the users data
     } else {
       console.error("Users data is missing in the response:", response);
@@ -56,7 +55,8 @@ export const fetchUsers = () => async (dispatch) => {
 
 export const fetchTree = (userId) => async (dispatch) => {
   try {
-    const tree = await getTree(userId);
+    const response = await getTree(userId);
+    const tree = response.data;
     dispatch(receiveTree(tree));
   } catch (err) {
     console.error("Error fetching tree:", err);
@@ -65,7 +65,8 @@ export const fetchTree = (userId) => async (dispatch) => {
 
 export const makeTree = (data) => async (dispatch) => {
   try {
-    const newTree = await createTree(data);
+    const response = await createTree(data);
+    const newTree = response.data;
     dispatch(receiveNewTree(newTree));
   } catch (err) {
     console.error("Error creating tree:", err);

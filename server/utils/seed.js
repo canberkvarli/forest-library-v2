@@ -1,4 +1,5 @@
 import "dotenv/config";
+import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import User from "../models/User.js";
 import Leaf from "../models/Leaf.js";
@@ -18,6 +19,19 @@ const sampleLeaves = [
 // Branches data (if applicable)
 const sampleBranches = ["Fiction", "Classics", "Dystopian"];
 
+async function createDemoUser() {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash("123456", salt);
+
+  const demoUser = new User({
+    username: "demo",
+    password: hashedPassword,
+  });
+
+  await demoUser.save();
+  console.log("Demo user created!");
+}
+
 const seedDatabase = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI, {
@@ -30,6 +44,8 @@ const seedDatabase = async () => {
     await Leaf.deleteMany({});
     await Tree.deleteMany({});
     console.log("Database reset!");
+
+    createDemoUser();
 
     for (const userData of sampleUsers) {
       const newUser = new User(userData);
