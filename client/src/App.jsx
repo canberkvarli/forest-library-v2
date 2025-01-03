@@ -1,7 +1,9 @@
+import Footer from "./components/layout/Footer";
+
 function App() {
   return (
-    <div style={{ color: "black", fontSize: "24px" }}>
-      HomePage
+    <div>
+      <Footer />
     </div>
   );
 }
