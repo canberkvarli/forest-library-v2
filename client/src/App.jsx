@@ -1,9 +1,10 @@
-import Footer from "./components/layout/Footer";
+
+import Forest from "./components/Forest/Forest.jsx";
 
 function App() {
   return (
     <div>
-      <Footer />
+      <Forest />
     </div>
   );
 }

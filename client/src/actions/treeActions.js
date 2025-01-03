@@ -5,12 +5,13 @@ export const RECEIVE_TREE = "RECEIVE_TREE";
 export const RECEIVE_NEW_TREE = "RECEIVE_NEW_TREE";
 export const RECEIVE_USERS = "RECEIVE_USERS";
 
+// Action Creators
 export const receiveTrees = (trees) => ({
   type: RECEIVE_TREES,
   trees,
 });
 
-export const receiveUserTree = (tree) => ({
+export const receiveTree = (tree) => ({
   type: RECEIVE_TREE,
   tree,
 });
@@ -25,27 +26,48 @@ export const receiveUsers = (users) => ({
   users,
 });
 
-export const fetchTrees = () => (dispatch) =>
-  getTrees()
-    .then((trees) => dispatch(receiveTrees(trees)))
-    .catch((err) => console.log(err));
-
-export const fetchUsers = () => (dispatch) =>
-  getUsers()
-    .then((users) => dispatch(receiveUsers(users)))
-    .catch((err) => console.log(err));
-
-export const getUser = (state, id) => {
-  let users = Object.values(state.entities.trees);
-  return users.filter((user) => user._id === id);
+// Thunk Actions
+export const fetchTrees = () => async (dispatch) => {
+  try {
+    const trees = await getTrees();
+    if (trees && trees.data) {
+      dispatch(receiveTrees(trees));
+    }
+  } catch (err) {
+    console.error("Error fetching trees:", err);
+  }
 };
 
-export const fetchTree = (userId) => (dispatch) =>
-  getTree(userId)
-    .then((tree) => dispatch(receiveUserTree(tree)))
-    .catch((err) => console.log(err));
+export const fetchUsers = () => async (dispatch) => {
+  try {
+    const response = await getUsers(); // Ensure the promise is resolved
+    console.log("Response after fetching:", response); // Log the full response
+    if (response && response.data) {
+      const users = response.data; // Extract the data portion
+      console.log("Users after fetching:", users); // Log the users data
+      dispatch(receiveUsers(users)); // Dispatch the action with the users data
+    } else {
+      console.error("Users data is missing in the response:", response);
+    }
+  } catch (err) {
+    console.error("Error fetching users:", err);
+  }
+};
 
-export const makeTree = (data) => (dispatch) =>
-  createTree(data)
-    .then((tree) => dispatch(receiveNewTree(tree)))
-    .catch((err) => console.log(err));
+export const fetchTree = (userId) => async (dispatch) => {
+  try {
+    const tree = await getTree(userId);
+    dispatch(receiveTree(tree));
+  } catch (err) {
+    console.error("Error fetching tree:", err);
+  }
+};
+
+export const makeTree = (data) => async (dispatch) => {
+  try {
+    const newTree = await createTree(data);
+    dispatch(receiveNewTree(newTree));
+  } catch (err) {
+    console.error("Error creating tree:", err);
+  }
+};
