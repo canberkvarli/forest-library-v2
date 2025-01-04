@@ -55,12 +55,20 @@ export const signup = (user) => async (dispatch) => {
 // Thunk for login
 export const login = (user) => async (dispatch) => {
   try {
-    const res = await APIUtil.login(user);
-    const { token } = res.data;
-    localStorage.setItem("jwtToken", token);
-    APIUtil.setAuthToken(token);
-    const decoded = jwtDecode(token);
-    dispatch(setSession(decoded));
+    const loginResponse = await APIUtil.login(user);
+
+    if (loginResponse && loginResponse.data.errors) {
+      dispatch(receiveErrors(loginResponse.data.errors));
+    } else if (loginResponse.data.success) {
+      const { token } = loginResponse.data;
+
+      localStorage.setItem("jwtToken", token);
+      APIUtil.setAuthToken(token);
+
+      const decoded = jwtDecode(token);
+
+      dispatch(setSession(decoded));
+    }
   } catch (err) {
     dispatch(receiveErrors(err.response.data));
   }

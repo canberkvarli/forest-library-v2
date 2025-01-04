@@ -17,34 +17,34 @@ const AuthModal = ({ onClose, isSignup }) => {
     });
 
     const dispatch = useDispatch();
-    const errors = useSelector((state) => state.errors.session);
+    const errors = useSelector((state) => state.errors.session); // Errors from Redux store
     const isAuthenticated = useSelector((state) => state.session.isAuthenticated);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
 
-        // Mark the field as touched when typing starts
+        // Mark the field as touched
         setTouchedFields({ ...touchedFields, [name]: true });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (isSignup) {
-            dispatch(signup(formData));
-        } else {
-            dispatch(login(formData));
-        }
+        const payload = isSignup
+            ? formData
+            : { username: formData.username, password: formData.password };
+
+        isSignup ? dispatch(signup(payload)) : dispatch(login(payload));
     };
 
     useEffect(() => {
         if (isAuthenticated) {
-            onClose(); // Close the modal if the user is authenticated
+            onClose(); // Close the modal on successful authentication
         }
     }, [isAuthenticated, onClose]);
 
     useEffect(() => {
-        // Reset form data when switching between signup/login
+        // Reset form data when switching between signup and login
         setFormData({ username: "", password: "", password2: "" });
         setTouchedFields({ username: false, password: false, password2: false });
     }, [isSignup]);
@@ -85,7 +85,7 @@ const AuthModal = ({ onClose, isSignup }) => {
                             className="w-full border border-emerald-400 text-emerald-800 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500"
                             required
                         />
-                        {touchedFields.username && errors && errors.username && (
+                        {touchedFields.username && errors.username && (
                             <div className="text-red-500 text-sm">{errors.username}</div>
                         )}
                     </div>
@@ -101,7 +101,7 @@ const AuthModal = ({ onClose, isSignup }) => {
                             className="w-full border border-emerald-400 text-emerald-800 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500"
                             required
                         />
-                        {touchedFields.password && errors && errors.password && (
+                        {touchedFields.password && errors.password && (
                             <div className="text-red-500 text-sm">{errors.password}</div>
                         )}
                     </div>
@@ -118,9 +118,14 @@ const AuthModal = ({ onClose, isSignup }) => {
                                 className="w-full border border-emerald-400 text-emerald-800 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 required
                             />
-                            {touchedFields.password2 && errors && errors.password2 && (
+                            {touchedFields.password2 && errors.password2 && (
                                 <div className="text-red-500 text-sm">{errors.password2}</div>
                             )}
+                        </div>
+                    )}
+                    {errors.error && (
+                        <div className="text-red-500 text-sm text-center mt-2">
+                            {errors.error}
                         </div>
                     )}
                     <button
@@ -136,3 +141,4 @@ const AuthModal = ({ onClose, isSignup }) => {
 };
 
 export default AuthModal;
+
