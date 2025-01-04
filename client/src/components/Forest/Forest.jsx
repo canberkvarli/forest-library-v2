@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchTrees, fetchUsers } from "../../actions/treeActions";
 import { LuTreeDeciduous } from "react-icons/lu";
-import SignupModal from "../SignupModal/SignupModal";
+import AuthModal from "../AuthModal/AuthModal";
 import Footer from "../Footer/Footer";
 
 const Forest = () => {
@@ -12,7 +12,7 @@ const Forest = () => {
     const loggedIn = useSelector((state) => state.session.isAuthenticated);
     const user = useSelector((state) => state.session.user);
     const trees = useSelector((state) => state.entities.trees);
-    const [showSignupModal, setShowSignupModal] = useState(false);
+    const [showAuthModal, setShowAuthModal] = useState(false);
 
 
     // Fetch trees and users if they haven't been fetched yet
@@ -78,11 +78,11 @@ const Forest = () => {
                         <span className="bottom-ad-desc">
                             Save books, add reviews and build your tree. All for free.
                         </span>
-                        <button onClick={() => setShowSignupModal(true)} className="w-64 inline-flex items-center justify-center text-white font-cursive text-lg bg-teal-500 border border-gray-400 rounded-lg py-2 px-4 transition-transform transform hover:scale-105">
+                        <button onClick={() => setShowAuthModal(true)} className="w-64 inline-flex items-center justify-center text-white font-cursive text-lg bg-teal-500 border border-gray-400 rounded-lg py-2 px-4 transition-transform transform hover:scale-105">
                             Create a Tree
                         </button>
-                        {showSignupModal && (
-                            <SignupModal onClose={() => setShowSignupModal(false)} />
+                        {showAuthModal && (
+                            <AuthModal onClose={() => setShowAuthModal(false)} />
                         )}
                     </div>
                     <Footer />

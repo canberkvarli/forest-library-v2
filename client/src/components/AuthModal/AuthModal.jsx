@@ -1,13 +1,19 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { signup } from "../../actions/sessionActions";
+import { signup, login } from "../../actions/sessionActions";
 
 // eslint-disable-next-line react/prop-types
-const SignupModal = ({ onClose }) => {
+const AuthModal = ({ onClose, isSignup }) => {
     const [formData, setFormData] = useState({
         username: "",
         password: "",
         password2: "",
+    });
+
+    const [touchedFields, setTouchedFields] = useState({
+        username: false,
+        password: false,
+        password2: false,
     });
 
     const dispatch = useDispatch();
@@ -17,11 +23,18 @@ const SignupModal = ({ onClose }) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+
+        // Mark the field as touched when typing starts
+        setTouchedFields({ ...touchedFields, [name]: true });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(signup(formData));
+        if (isSignup) {
+            dispatch(signup(formData));
+        } else {
+            dispatch(login(formData));
+        }
     };
 
     useEffect(() => {
@@ -30,7 +43,12 @@ const SignupModal = ({ onClose }) => {
         }
     }, [isAuthenticated, onClose]);
 
-    // Handle closing the modal if the user clicks outside of it
+    useEffect(() => {
+        // Reset form data when switching between signup/login
+        setFormData({ username: "", password: "", password2: "" });
+        setTouchedFields({ username: false, password: false, password2: false });
+    }, [isSignup]);
+
     const handleOutsideClick = (e) => {
         if (e.target === e.currentTarget) {
             onClose();
@@ -39,20 +57,20 @@ const SignupModal = ({ onClose }) => {
 
     return (
         <div
-            style={{ fontFamily: "cursive" }}
-            className="fixed inset-0 bg-emerald-900 bg-opacity-40 flex items-center justify-center z-50"
-            onClick={handleOutsideClick} // Close modal on click outside
+            className="fixed inset-0 bg-opacity-40 flex items-center justify-center z-50 bg-emerald-900"
+            onClick={handleOutsideClick}
         >
-            <div className="bg-emerald-50 rounded-lg shadow-lg w-full max-w-md relative">
-                {/* X button in the top-right corner */}
+            <div className="bg-white rounded-lg shadow-lg w-full max-w-md relative">
                 <button
                     className="absolute top-4 right-4 text-emerald-600 hover:text-emerald-800"
                     onClick={onClose}
                 >
                     ✕
                 </button>
-                <div className="p-4 border-b border-emerald-400">
-                    <h2 className="text-xl font-semibold text-emerald-800">Sign Up</h2>
+                <div className="p-4 border-b">
+                    <h2 className="text-xl font-semibold text-emerald-800">
+                        {isSignup ? "Sign Up" : "Login"}
+                    </h2>
                 </div>
                 <form onSubmit={handleSubmit} className="p-4 space-y-4">
                     <div>
@@ -67,7 +85,7 @@ const SignupModal = ({ onClose }) => {
                             className="w-full border border-emerald-400 text-emerald-800 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500"
                             required
                         />
-                        {errors && errors.username && (
+                        {touchedFields.username && errors && errors.username && (
                             <div className="text-red-500 text-sm">{errors.username}</div>
                         )}
                     </div>
@@ -83,32 +101,33 @@ const SignupModal = ({ onClose }) => {
                             className="w-full border border-emerald-400 text-emerald-800 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500"
                             required
                         />
-                        {errors && errors.password && (
+                        {touchedFields.password && errors && errors.password && (
                             <div className="text-red-500 text-sm">{errors.password}</div>
                         )}
                     </div>
-                    <div>
-                        <label className="block mb-1 text-sm font-medium text-emerald-800">
-                            Confirm Password
-                        </label>
-                        <input
-                            type="password"
-                            name="password2"
-                            value={formData.password2}
-                            onChange={handleChange}
-                            className="w-full border border-emerald-400 text-emerald-800 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500"
-                            required
-                        />
-                        {errors && errors.password2 && (
-                            <div className="text-red-500 text-sm">{errors.password2}</div>
-                        )}
-                    </div>
-
+                    {isSignup && (
+                        <div>
+                            <label className="block mb-1 text-sm font-medium text-emerald-800">
+                                Confirm Password
+                            </label>
+                            <input
+                                type="password"
+                                name="password2"
+                                value={formData.password2}
+                                onChange={handleChange}
+                                className="w-full border border-emerald-400 text-emerald-800 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                required
+                            />
+                            {touchedFields.password2 && errors && errors.password2 && (
+                                <div className="text-red-500 text-sm">{errors.password2}</div>
+                            )}
+                        </div>
+                    )}
                     <button
                         type="submit"
                         className="w-full bg-emerald-600 text-white rounded-lg py-2 hover:bg-emerald-700"
                     >
-                        Sign Up
+                        {isSignup ? "Sign Up" : "Login"}
                     </button>
                 </form>
             </div>
@@ -116,4 +135,4 @@ const SignupModal = ({ onClose }) => {
     );
 };
 
-export default SignupModal;
+export default AuthModal;

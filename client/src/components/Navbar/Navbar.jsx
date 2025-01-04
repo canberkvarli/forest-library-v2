@@ -1,16 +1,18 @@
+// NavBar.js
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, login } from "../../actions/sessionActions";
 import { TbHelpSquareRounded } from "react-icons/tb";
-import SignupModal from "../SignupModal/SignupModal"
+import AuthModal from "../AuthModal/AuthModal";
 import song from "../../assets/audioFiles/Gotama - Inner Sanctuary.mp3";
 import "./navbar.css";
 
 const NavBar = () => {
     const [playing, setPlaying] = useState(false);
     const [musicBgColor, setMusicBgColor] = useState("");
-    const [showSignupModal, setShowSignupModal] = useState(false);
+    const [showAuthModal, setShowAuthModal] = useState(false); // Unified state for both modals
+    const [isSignup, setIsSignup] = useState(true); // Track whether it's signup or login
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const audioRef = useRef(new Audio(song));
@@ -56,8 +58,8 @@ const NavBar = () => {
             ) : (
                 <>
                     <div onClick={demoLogin}>Demo</div>
-                    <div onClick={() => setShowSignupModal(true)}>Signup</div>
-                    <div onClick={() => handleClick("/login")}>Login</div>
+                    <div onClick={() => { setShowAuthModal(true); setIsSignup(true); }}>Signup</div>
+                    <div onClick={() => { setShowAuthModal(true); setIsSignup(false); }}>Login</div>
                 </>
             )}
         </div>
@@ -68,8 +70,11 @@ const NavBar = () => {
             <div className="nav-bar-logo" onClick={() => handleClick("/")}>
                 Forest Library
             </div>
-            {showSignupModal && (
-                <SignupModal onClose={() => setShowSignupModal(false)} />
+            {showAuthModal && (
+                <AuthModal
+                    onClose={() => setShowAuthModal(false)}
+                    isSignup={isSignup}
+                />
             )}
             <div className="nav-icons" id="instructions-icon">
                 <TbHelpSquareRounded
