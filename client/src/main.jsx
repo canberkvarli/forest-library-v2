@@ -12,29 +12,29 @@ import { logout } from "./actions/sessionActions";
 const rootElement = document.getElementById("root");
 const root = ReactDOM.createRoot(rootElement);
 
-// Handle JWT token and preloaded state
-let preloadedState = {};
-if (localStorage.jwtToken) {
-  setAuthToken(localStorage.jwtToken);
-  const decodedUser = jwtDecode(localStorage.jwtToken);
-  preloadedState = { session: { isAuthenticated: true, user: decodedUser } };
+const initializeStore = () => {
+  const preloadedState = {};
+  if (localStorage.jwtToken) {
+    const decodedUser = jwtDecode(localStorage.jwtToken);
+    const currentTime = Date.now() / 1000;
 
-  const currentTime = Date.now() / 1000;
-  if (decodedUser.exp < currentTime) {
-    preloadedState = {}; // Clear state if token expired
+    if (decodedUser.exp >= currentTime) {
+      preloadedState.session = {
+        isAuthenticated: true,
+        user: decodedUser,
+      };
+      setAuthToken(localStorage.jwtToken);
+    }
   }
-}
+  return createAppStore(preloadedState);
+};
 
-// Create the Redux store with preloaded state
-const store = createAppStore(preloadedState);
+const store = initializeStore();
 
-// Check for token expiration after the store is initialized
-if (localStorage.jwtToken && preloadedState.session?.isAuthenticated) {
+// Check token expiration after store creation
+if (localStorage.jwtToken && store.getState().session.isAuthenticated) {
   const decodedUser = jwtDecode(localStorage.jwtToken);
-  const currentTime = Date.now() / 1000;
-
-  if (decodedUser.exp < currentTime) {
-    // Dispatch logout action
+  if (decodedUser.exp < Date.now() / 1000) {
     store.dispatch(logout());
     window.location.href = "/login";
   }
