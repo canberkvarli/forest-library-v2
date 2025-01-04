@@ -8,7 +8,8 @@ import Footer from "../Footer/Footer";
 
 const Forest = () => {
     const dispatch = useDispatch();
-    const { loggedIn, user } = useSelector((state) => state.session);
+    const loggedIn = useSelector((state) => state.session.isAuthenticated);
+    const user = useSelector((state) => state.session.user);
     const trees = useSelector((state) => state.entities.trees);
 
     // Fetch trees and users if they haven't been fetched yet
@@ -21,6 +22,7 @@ const Forest = () => {
 
     const renderForestContent = () => {
         if (loggedIn) {
+            console.log("User is logged in");
             return (
                 <div className="main-page">
                     <div className="welcome-user">Welcome home {user.username}</div>
@@ -77,6 +79,7 @@ const Forest = () => {
                             Create a Tree
                         </Link>
                     </div>
+                    <Footer />
                 </div>
             );
         }
@@ -89,7 +92,6 @@ const Forest = () => {
     return (
         <div>
             {renderForestContent()}
-            <Footer />
         </div>
     );
 };
