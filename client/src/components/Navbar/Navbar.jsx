@@ -1,30 +1,22 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, login } from "../../actions/sessionActions";
 import { TbHelpSquareRounded } from "react-icons/tb";
-import Modal from "../Modal/Modal";
+import SignupModal from "../SignupModal/SignupModal"
 import song from "../../assets/audioFiles/Gotama - Inner Sanctuary.mp3";
 import "./navbar.css";
 
 const NavBar = () => {
     const [playing, setPlaying] = useState(false);
     const [musicBgColor, setMusicBgColor] = useState("");
-    const [showModal, setShowModal] = useState(false);
+    const [showSignupModal, setShowSignupModal] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const audioRef = useRef(new Audio(song)); // Use ref to persist audio instance
+    const audioRef = useRef(new Audio(song));
 
     const loggedIn = useSelector((state) => state.session.isAuthenticated);
     const session = useSelector((state) => state.session);
-
-    useEffect(() => {
-        const audio = audioRef.current;
-        const handleAudioEnd = () => setPlaying(false);
-        audio.addEventListener("ended", handleAudioEnd);
-
-        return () => audio.removeEventListener("ended", handleAudioEnd);
-    }, []);
 
     const playPause = async () => {
         const audio = audioRef.current;
@@ -64,7 +56,7 @@ const NavBar = () => {
             ) : (
                 <>
                     <div onClick={demoLogin}>Demo</div>
-                    <div onClick={() => handleClick("/register")}>Signup</div>
+                    <div onClick={() => setShowSignupModal(true)}>Signup</div>
                     <div onClick={() => handleClick("/login")}>Login</div>
                 </>
             )}
@@ -76,11 +68,13 @@ const NavBar = () => {
             <div className="nav-bar-logo" onClick={() => handleClick("/")}>
                 Forest Library
             </div>
-            <Modal show={showModal} handleClose={() => setShowModal(false)} />
+            {showSignupModal && (
+                <SignupModal onClose={() => setShowSignupModal(false)} />
+            )}
             <div className="nav-icons" id="instructions-icon">
                 <TbHelpSquareRounded
                     size={70}
-                    onClick={() => setShowModal(true)}
+                    onClick={() => alert("Help info")}
                     style={{ color: "black" }}
                 />
             </div>
