@@ -67,6 +67,9 @@ const SignupModal = ({ onClose }) => {
                             className="w-full border border-emerald-400 text-emerald-800 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500"
                             required
                         />
+                        {errors && errors.username && (
+                            <div className="text-red-500 text-sm">{errors.username}</div>
+                        )}
                     </div>
                     <div>
                         <label className="block mb-1 text-sm font-medium text-emerald-800">
@@ -80,6 +83,9 @@ const SignupModal = ({ onClose }) => {
                             className="w-full border border-emerald-400 text-emerald-800 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500"
                             required
                         />
+                        {errors && errors.password && (
+                            <div className="text-red-500 text-sm">{errors.password}</div>
+                        )}
                     </div>
                     <div>
                         <label className="block mb-1 text-sm font-medium text-emerald-800">
@@ -93,10 +99,11 @@ const SignupModal = ({ onClose }) => {
                             className="w-full border border-emerald-400 text-emerald-800 rounded-lg p-2 focus:ring-emerald-500 focus:border-emerald-500"
                             required
                         />
+                        {errors && errors.password2 && (
+                            <div className="text-red-500 text-sm">{errors.password2}</div>
+                        )}
                     </div>
-                    {errors && (
-                        <div className="text-red-500 text-sm">{errors.join(", ")}</div>
-                    )}
+
                     <button
                         type="submit"
                         className="w-full bg-emerald-600 text-white rounded-lg py-2 hover:bg-emerald-700"

@@ -24,7 +24,6 @@ router.post(
   async (req, res) => {
     // Use custom validation
     const { errors, isValid } = validateRegisterInput(req.body);
-
     if (!isValid) {
       return res.status(200).json({ errors });
     }
@@ -34,7 +33,9 @@ router.post(
     try {
       const existingUser = await User.findOne({ username });
       if (existingUser) {
-        return res.status(200).json({ error: "Username is already taken" });
+        return res
+          .status(200)
+          .json({ errors: { username: "Username is already taken" } });
       }
 
       const salt = await bcrypt.genSalt(10);

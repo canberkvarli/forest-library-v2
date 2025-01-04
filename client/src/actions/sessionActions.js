@@ -32,9 +32,22 @@ export const logoutUser = () => ({
 // Thunk for signup
 export const signup = (user) => async (dispatch) => {
   try {
-    await APIUtil.signup(user);
-    dispatch(login(user));
+    // Try to signup
+    const signupResponse = await APIUtil.signup(user);
+
+    // Check if the response contains validation errors
+    if (signupResponse && signupResponse.data.errors) {
+      // Dispatch the validation errors to the store
+      dispatch(receiveErrors(signupResponse.data.errors));
+    } else if (signupResponse.data.success) {
+      // Proceed to login if signup is successful (if success flag exists)
+      dispatch(login(user));
+    }
   } catch (err) {
+    // Log the error for debugging purposes
+    console.log("Error response:", err.response);
+
+    // Dispatch the error to the store
     dispatch(receiveErrors(err.response.data));
   }
 };
