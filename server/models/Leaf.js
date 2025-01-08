@@ -7,6 +7,10 @@ const LeafSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  treeId: {
+    type: Schema.Types.ObjectId,
+    ref: "Tree",
+  },
   category: {
     type: String,
   },

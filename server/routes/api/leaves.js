@@ -45,21 +45,26 @@ router.get("/:id", (req, res) => {
     .catch((err) => res.status(400).json(err));
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const { isValid, errors } = validateLeafInput(req.body);
 
   if (!isValid) {
     return res.status(400).json(errors);
   }
+
   try {
     const newLeaf = new Leaf({
       title: req.body.title,
+      author: req.body.author, // Ensure the author is being saved
       userId: req.body.userId,
       category: req.body.category,
     });
-    newLeaf.save().then((leaf) => res.json(leaf));
+    const savedLeaf = await newLeaf.save();
+    console.log("Leaf saved successfully:", savedLeaf); // Debugging log
+    res.json(savedLeaf);
   } catch (err) {
-    res.status(400).json(err);
+    console.error("Error saving leaf:", err);
+    res.status(500).json({ error: "Failed to save leaf" });
   }
 });
 

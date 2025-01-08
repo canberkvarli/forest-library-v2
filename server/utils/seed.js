@@ -49,7 +49,13 @@ const seedDatabase = async () => {
 
     // Seed sample users and create their trees
     for (const userData of sampleUsers) {
-      const newUser = new User(userData);
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(userData.password, salt);
+
+      const newUser = new User({
+        username: userData.username,
+        password: hashedPassword,
+      });
       const savedUser = await newUser.save();
 
       // Create a tree for the user
@@ -60,13 +66,14 @@ const seedDatabase = async () => {
       });
       const savedTree = await newTree.save();
 
-      savedUser.trees.push(savedTree._id); // Link the tree to the user
+      savedUser.trees = [savedTree._id]; // Link the tree to the user
       await savedUser.save();
 
-      // Create and attach leaves
+      // Create and attach leaves to the tree
       for (const leafData of sampleLeaves) {
         const newLeaf = new Leaf({
           userId: savedUser._id,
+          treeId: savedTree._id, // Associate the leaf with the tree
           ...leafData,
         });
         const savedLeaf = await newLeaf.save();

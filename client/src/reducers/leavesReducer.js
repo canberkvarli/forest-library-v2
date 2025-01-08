@@ -18,10 +18,18 @@ const LeavesReducer = (state = {}, action) => {
       return { ...newState, ...leaves };
     }
 
-    case RECEIVE_LEAF:
-    case RECEIVE_NEW_LEAF:
-      newState[action.leaf._id] = action.leaf;
+    case RECEIVE_NEW_LEAF: {
+      const leaf = action.leaf;
+      console.log("Adding new leaf to store:", leaf);
+      newState[leaf._id] = leaf;
       return newState;
+    }
+
+    case RECEIVE_LEAF: {
+      const leaf = action.leaf;
+      newState[leaf._id] = leaf;
+      return newState;
+    }
 
     case REMOVE_LEAF:
       delete newState[action.leafId];

@@ -15,7 +15,7 @@ const UserSchema = new Schema({
   trees: {
     type: Schema.Types.ObjectId,
     ref: "Tree",
-    leafs: {
+    leaves: {
       type: Schema.Types.ObjectId,
       ref: "Leaf",
     },
