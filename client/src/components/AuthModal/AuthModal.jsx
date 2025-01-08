@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { signup, login } from "../../actions/sessionActions";
+import { signup, login, clearSessionErrors } from "../../actions/sessionActions";
+import { fetchUsers } from "../../actions/treeActions";
 
 // eslint-disable-next-line react/prop-types
 const AuthModal = ({ onClose, isSignup }) => {
@@ -17,14 +18,12 @@ const AuthModal = ({ onClose, isSignup }) => {
     });
 
     const dispatch = useDispatch();
-    const errors = useSelector((state) => state.errors.session); // Errors from Redux store
+    const errors = useSelector((state) => state.errors.session);
     const isAuthenticated = useSelector((state) => state.session.isAuthenticated);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-
-        // Mark the field as touched
         setTouchedFields({ ...touchedFields, [name]: true });
     };
 
@@ -39,15 +38,16 @@ const AuthModal = ({ onClose, isSignup }) => {
 
     useEffect(() => {
         if (isAuthenticated) {
-            onClose(); // Close the modal on successful authentication
+            onClose();
+            dispatch(fetchUsers());
         }
-    }, [isAuthenticated, onClose]);
+    }, [isAuthenticated, onClose, dispatch]);
 
     useEffect(() => {
-        // Reset form data when switching between signup and login
         setFormData({ username: "", password: "", password2: "" });
         setTouchedFields({ username: false, password: false, password2: false });
-    }, [isSignup]);
+        dispatch(clearSessionErrors());
+    }, [isSignup, dispatch]);
 
     const handleOutsideClick = (e) => {
         if (e.target === e.currentTarget) {

@@ -1,0 +1,166 @@
+
+.profile-page-container {
+    display: flex;
+    width: 95vw;
+    position: relative;
+    height: 570px;
+    background-color: #edf4e0;
+    border: solid 5px #5d7676;
+    border-radius: 15px;
+    margin-top: 75px;
+    flex-direction: row;
+}
+
+.profile-page-container > * {
+  margin: auto;
+  color: darkslategray;
+}
+
+.profile-page-left {
+    display: flex;
+    height: 500px;
+    flex-direction: column;
+    align-items: center;
+    border: 3px solid;
+    margin-top: 50px;
+    width: 25%;
+    border-radius: 20px;
+}
+
+.profile-page-other {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-around; */
+  width: 70%;
+}
+
+.profile-page-mid-right {
+    display: flex;
+    margin-top: -120px;
+    justify-content: space-around;
+}
+
+.profile-page-trunk {
+    margin-left: 22.5%;
+    height: 100px;
+    border: 1px solid rosybrown;
+    width: 10%;
+    background-color: #964b00;
+    text-align: center;
+    padding: auto;
+    color: whitesmoke;
+}
+
+.profile-page-tree{
+  display: flex;
+}
+
+.profile-page-left{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.profile-page-left > * {
+  margin-top: 30px;
+  padding: 5px;
+}
+
+.tree-container {
+  border-radius: 100px;
+  border: 1px solid lightgreen;
+  padding: 20px;
+  width: 50%;
+  min-width: 250px;
+  min-height:200px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  background-color: darkslategray;
+  margin-left: -70px;
+
+}
+
+
+.tree-leaf {
+  border-radius: 100px;
+  height: 50px;
+  flex: 0 3 15%;
+  display: inline-block;
+  color: whitesmoke;
+  margin: 5px 0;
+}
+
+.tree-leaf:hover {
+  box-shadow: 0 0 10px green;
+  cursor: pointer;
+}
+
+.tree-leaf-info {
+    font-size: small;
+    padding: 10px 0;
+    position: absolute;
+    top: 25%;
+    left: 73%;
+    width: 170px;
+    /* right: 15%; */
+    background-color: cadetblue;
+    border-radius: 5px;
+    border: 3px solid #71685c;
+    padding: 10px;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+.tree-leaf-info > * {
+  padding: 10px 0;
+  color:whitesmoke;
+}
+
+.create-tree-btn{
+    border: 1px solid gray;
+    border-radius: 10px;
+    /* height: auto; */
+    background-color: lightseagreen;
+    /* display: flex; */
+    /* position: absolute; */
+    /* margin-left: -380px; */
+    width: 130px;
+    height: 28px;
+    margin-top: 25px;
+    /* margin-top: -70px; */
+    /* padding-left: 30px; */
+    padding-top: 10px;
+    margin-bottom: 72px;
+}
+
+.create-tree-btn:hover{
+  box-shadow: 0 0 10px aquamarine;
+  cursor: pointer;
+}
+
+.other-page-left{
+  display:flex;
+  flex-direction: column;
+  /* justify-content: space-around; */
+  align-items: center;
+  width: 35%;
+}
+
+.other-page-left>*{
+  width: 75%;
+  text-align: center;
+  font-size: x-large;
+  /* line-height: 20px; */
+}
+
+.other-page-title{
+  padding-bottom: 100px;
+}
+
+.other-page-sub{
+  padding-bottom: 25px;
+  line-height: 25px;
+}

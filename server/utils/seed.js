@@ -16,7 +16,6 @@ const sampleLeaves = [
   { title: "1984", category: "Dystopian", author: "George Orwell" },
 ];
 
-// Branches data (if applicable)
 const sampleBranches = ["Fiction", "Classics", "Dystopian"];
 
 async function createDemoUser() {
@@ -45,8 +44,10 @@ const seedDatabase = async () => {
     await Tree.deleteMany({});
     console.log("Database reset!");
 
-    createDemoUser();
+    // Create demo user if required
+    await createDemoUser();
 
+    // Seed sample users and create their trees
     for (const userData of sampleUsers) {
       const newUser = new User(userData);
       const savedUser = await newUser.save();
@@ -59,7 +60,7 @@ const seedDatabase = async () => {
       });
       const savedTree = await newTree.save();
 
-      savedUser.trees = savedTree._id;
+      savedUser.trees.push(savedTree._id); // Link the tree to the user
       await savedUser.save();
 
       // Create and attach leaves
@@ -70,7 +71,7 @@ const seedDatabase = async () => {
         });
         const savedLeaf = await newLeaf.save();
 
-        savedTree.leaves.push(savedLeaf._id);
+        savedTree.leaves.push(savedLeaf._id); // Attach the leaf to the tree
         await savedTree.save();
       }
 

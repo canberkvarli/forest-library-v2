@@ -1,9 +1,16 @@
-import { getTrees, getTree, createTree, getUsers } from "../utils/treeApiUtil";
+import {
+  getTrees,
+  getTree,
+  createTree,
+  getUsers,
+  getUser,
+} from "../utils/treeApiUtil";
 
 export const RECEIVE_TREES = "RECEIVE_TREES";
 export const RECEIVE_TREE = "RECEIVE_TREE";
 export const RECEIVE_NEW_TREE = "RECEIVE_NEW_TREE";
 export const RECEIVE_USERS = "RECEIVE_USERS";
+export const RECEIVE_USER = "RECEIVE_USER";
 
 // Action Creators
 export const receiveTrees = (trees) => ({
@@ -24,6 +31,11 @@ export const receiveNewTree = (tree) => ({
 export const receiveUsers = (users) => ({
   type: RECEIVE_USERS,
   users,
+});
+
+export const receiveUser = (user) => ({
+  type: RECEIVE_USER,
+  user,
 });
 
 // Thunk Actions
@@ -50,6 +62,16 @@ export const fetchUsers = () => async (dispatch) => {
     }
   } catch (err) {
     console.error("Error fetching users:", err);
+  }
+};
+
+export const fetchUser = (userId) => async (dispatch) => {
+  try {
+    const response = await getUser(userId);
+    const user = response.data;
+    dispatch(receiveUser(user));
+  } catch (err) {
+    console.error("Error fetching tree:", err);
   }
 };
 

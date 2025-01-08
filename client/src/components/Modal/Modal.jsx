@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from "react";
-import Instructions from "./instructions";
+import Instructions from "./Instructions"
+import { IoClose } from "react-icons/io5";
 import "./modal.css";
 
 const Modal = ({ handleClose, show, children }) => {
@@ -28,15 +29,14 @@ const Modal = ({ handleClose, show, children }) => {
 
     return (
         <div className={modalClass} onClick={handleWindowClose}>
-            <section className="modal-main">
+            <section className="relative bg-white p-5 rounded-lg w-4/5 max-w-lg mx-auto">
+                <IoClose
+                    className="absolute top-2 right-2 text-red-500 cursor-pointer"
+                    size={50}
+                    onClick={handleClose}
+                />
                 {children}
                 <Instructions />
-                <img
-                    id="icon-close"
-                    src={""}
-                    onClick={handleClose}
-                    alt="close"
-                />
             </section>
         </div>
     );

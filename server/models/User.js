@@ -15,6 +15,10 @@ const UserSchema = new Schema({
   trees: {
     type: Schema.Types.ObjectId,
     ref: "Tree",
+    leafs: {
+      type: Schema.Types.ObjectId,
+      ref: "Leaf",
+    },
   },
   date: {
     type: Date,

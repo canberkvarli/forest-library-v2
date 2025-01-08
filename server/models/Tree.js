@@ -1,4 +1,6 @@
+// TreeSchema
 import mongoose from "mongoose";
+
 const { Schema, model } = mongoose;
 
 const TreeSchema = new Schema({
@@ -6,7 +8,12 @@ const TreeSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  leaves: [{ type: Schema.Types.ObjectId, ref: "Leaf" }],
+  leaves: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Leaf",
+    },
+  ],
   branches: {
     type: String,
   },

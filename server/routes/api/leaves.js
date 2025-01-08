@@ -2,6 +2,7 @@ import { Router } from "express";
 const router = Router();
 import validateLeafInput from "../../validation/leaves.js";
 import Leaf from "../../models/Leaf.js";
+import User from "../../models/User.js";
 
 router.get("/test", (req, res) => {
   res.json({ msg: "This is leaf route" });
@@ -14,10 +15,28 @@ router.get("/", (req, res) => {
     .catch((err) => res.status(400).json(err));
 });
 
-router.get("/user/:user_id", (req, res) => {
-  Leaf.find({ user: req.params.user_id })
-    .then((leaves) => res.json(leaves))
-    .catch((err) => res.status(400).json(err));
+// Get leaves by user
+router.get("/user/:user_id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.user_id).populate({
+      path: "trees",
+      populate: {
+        path: "leaves",
+        model: "Leaf",
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Return the leaves associated with the user's trees
+    const leaves = user.trees.flatMap((tree) => tree.leaves);
+    res.json(leaves);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json(err);
+  }
 });
 
 router.get("/:id", (req, res) => {

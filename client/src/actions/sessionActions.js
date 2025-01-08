@@ -1,11 +1,13 @@
 import * as APIUtil from "../utils/sessionApiUtil";
 import { jwtDecode } from "jwt-decode";
 import { setSession, clearSession } from "../reducers/sessionReducer";
+import { fetchTrees, fetchUsers } from "./treeActions";
 
 export const RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";
 export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 export const RECEIVE_USER_LOGOUT = "RECEIVE_USER_LOGOUT";
 export const RECEIVE_USER_SIGN_IN = "RECEIVE_USER_SIGN_IN";
+export const CLEAR_SESSION_ERRORS = "CLEAR_SESSION_ERRORS";
 
 // We'll dispatch this when our user signs in
 export const receiveCurrentUser = (currentUser) => ({
@@ -29,6 +31,10 @@ export const logoutUser = () => ({
   type: RECEIVE_USER_LOGOUT,
 });
 
+export const clearSessionErrors = () => ({
+  type: CLEAR_SESSION_ERRORS,
+});
+
 // Thunk for signup
 export const signup = (user) => async (dispatch) => {
   try {
@@ -42,6 +48,8 @@ export const signup = (user) => async (dispatch) => {
     } else if (signupResponse.data.success) {
       // Proceed to login if signup is successful (if success flag exists)
       dispatch(login(user));
+      dispatch(fetchUsers());
+      dispatch(fetchTrees());
     }
   } catch (err) {
     // Log the error for debugging purposes

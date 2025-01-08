@@ -1,4 +1,3 @@
-import "./Forest.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,34 +13,34 @@ const Forest = () => {
     const trees = useSelector((state) => state.entities.trees);
     const [showAuthModal, setShowAuthModal] = useState(false);
 
-
-    // Fetch trees and users if they haven't been fetched yet
+    // Initial fetch of trees and users
     useEffect(() => {
-        if (!trees || Object.keys(trees).length === 0) {
-            dispatch(fetchTrees());
-            dispatch(fetchUsers());
-        }
-    }, [dispatch, trees]);
+        dispatch(fetchTrees());
+        dispatch(fetchUsers());
+    }, [dispatch]);
 
     const renderForestContent = () => {
         if (loggedIn) {
-            console.log("User is logged in");
             return (
                 <div className="main-page">
                     <div className="welcome-user">Welcome home {user.username}</div>
                     <div className="outer-forest">
                         <div className="forest">
-                            {Object.values(trees).map((tree) => (
-                                <div className="tree group" key={`${tree._id}-${tree.username}`}>
-                                    <Link className="links" to={`/users/${tree._id}`}>
-                                        <LuTreeDeciduous size={40} />
-                                    </Link>
-                                    <span className="tree-username">{tree.username}</span>
-                                    <div className="tooltip">
-                                        {tree.username}
+                            {Object.values(trees).map((tree) => {
+                                const isCurrentUser = tree.username === user.username;
+                                return (
+                                    <div className="tree group" key={`${tree._id}-${tree.username}`}>
+                                        <Link
+                                            className="links"
+                                            to={isCurrentUser ? `/users/${tree._id}/profile` : `/users/${tree._id}`}
+                                        >
+                                            <LuTreeDeciduous size={40} />
+                                        </Link>
+                                        <span className="tree-username">{tree.username}</span>
+                                        <div className="tooltip">{tree.username}</div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
@@ -64,9 +63,7 @@ const Forest = () => {
                                         <LuTreeDeciduous size={40} />
                                     </Link>
                                     <span className="tree-username">{tree.username}</span>
-                                    <div className="tooltip">
-                                        {tree.username}
-                                    </div>
+                                    <div className="tooltip">{tree.username}</div>
                                 </div>
                             ))}
                         </div>
@@ -76,13 +73,19 @@ const Forest = () => {
                             Thanks for checking out the trees. Now join in.
                         </span>
                         <span className="bottom-ad-desc">
-                            Save books, add reviews and build your tree. All for free.
+                            Save books, add reviews, and build your tree. All for free.
                         </span>
-                        <button onClick={() => setShowAuthModal(true)} className="w-64 inline-flex items-center justify-center text-white font-cursive text-lg bg-teal-500 border border-gray-400 rounded-lg py-2 px-4 transition-transform transform hover:scale-105">
+                        <button
+                            onClick={() => setShowAuthModal(true)}
+                            className="w-64 inline-flex items-center justify-center text-white font-cursive text-lg bg-teal-500 border border-gray-400 rounded-lg py-2 px-4 transition-transform transform hover:scale-105"
+                        >
                             Create a Tree
                         </button>
                         {showAuthModal && (
-                            <AuthModal onClose={() => setShowAuthModal(false)} />
+                            <AuthModal
+                                onClose={() => setShowAuthModal(false)}
+                                isSignup={true}
+                            />
                         )}
                     </div>
                     <Footer />
@@ -95,11 +98,7 @@ const Forest = () => {
         return <div>Loading...</div>;
     }
 
-    return (
-        <div>
-            {renderForestContent()}
-        </div>
-    );
+    return <div>{renderForestContent()}</div>;
 };
 
 export default Forest;

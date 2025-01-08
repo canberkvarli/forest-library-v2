@@ -37,3 +37,12 @@ export const getUsers = async () => {
     throw error; // Re-throw error to be caught by the calling function
   }
 };
+
+export const getUser = (userId) => {
+  try {
+    const response = axios.get(`/api/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+  }
+};
