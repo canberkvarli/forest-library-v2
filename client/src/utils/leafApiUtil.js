@@ -35,19 +35,20 @@ export const addALeaf = async (leaf) => {
 
 export const updateLeaf = (leaf) => {
   try {
-    const response = axios.put(`/api/leaves/${leaf._id}`, leaf);
+    const response = axios.patch(`/api/leaves/${leaf._id}`, leaf);
     return response.data;
   } catch (error) {
     console.error("Error updating leaf:", error);
   }
 };
 
-export const deleteLeaf = (leaf) => {
+export const deleteLeaf = async (leafId) => {
   try {
-    const response = axios.delete(`/api/leaves/${leaf._id}`);
+    const response = await axios.delete(`/api/leaves/${leafId}`);
     return response.data;
   } catch (error) {
     console.error("Error deleting leaf:", error);
+    throw error;
   }
 };
 

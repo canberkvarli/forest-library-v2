@@ -85,12 +85,23 @@ export const createLeaf = (data) => async (dispatch) => {
   }
 };
 
-export const updateLeafData = (data) => async (dispatch) => {
+export const updateLeafData = (leaf) => async (dispatch, getState) => {
   try {
-    const response = await updateLeaf(data);
-    if (response && response.data) {
-      dispatch(receiveLeaf(response.data));
+    const response = await updateLeaf(leaf);
+
+    if (response) {
+      dispatch(receiveLeaf(response));
     }
+    const state = getState();
+    const userId = leaf.userId || state.session.user?._id;
+
+    if (!userId) {
+      console.error("Error: Missing user ID for fetching leaves.");
+      return;
+    }
+
+    console.log("Fetching updated leaves for user:", userId);
+    dispatch(fetchLeavesByUserId(userId));
   } catch (err) {
     console.error("Error updating leaf:", err);
   }

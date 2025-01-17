@@ -95,21 +95,29 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Update a leaf's review
-router.patch("/:id", (req, res) => {
-  Leaf.findByIdAndUpdate(
-    req.params.id,
-    { review: req.body.review },
-    { new: true }
-  )
-    .then((leaf) => {
-      if (leaf) {
-        res.json(leaf);
-      } else {
-        res.status(404).json({ error: "Leaf not found" });
-      }
-    })
-    .catch((err) => res.status(500).json({ error: "Failed to update leaf" }));
+router.patch("/:id", async (req, res) => {
+  try {
+    const { title, author, category } = req.body;
+
+    if (!title || !author || !category) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const updatedLeaf = await Leaf.findByIdAndUpdate(
+      req.params.id,
+      { title, author, category },
+      { new: true }
+    );
+
+    if (!updatedLeaf) {
+      return res.status(404).json({ error: "Leaf not found" });
+    }
+
+    res.json(updatedLeaf);
+  } catch (err) {
+    console.error("Error updating leaf:", err);
+    res.status(500).json({ error: "Failed to update leaf" });
+  }
 });
 
 // Delete a leaf by ID

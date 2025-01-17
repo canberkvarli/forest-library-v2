@@ -23,7 +23,7 @@ const LeavesReducer = (state = initialState, action) => {
 
     case RECEIVE_NEW_LEAF: {
       const leaf = action.leaf;
-      if (!leaf || !leaf._id) return newState; // Prevent crashes
+      if (!leaf || !leaf._id) return newState;
       return { ...newState, [leaf._id]: leaf };
     }
 
