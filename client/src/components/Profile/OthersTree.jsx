@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import MyTree from "../MyTree/MyTree"
 import './profile.css';
-import { fetchLeaves } from "../../actions/leafActions"
+import { fetchLeavesByUserId } from "../../actions/leafActions"
 import { fetchUsers } from '../../actions/treeActions';
 import { fetchUser } from '../../actions/treeActions';
 import { useParams } from 'react-router-dom';
@@ -20,9 +20,12 @@ const OthersTree = () => {
     const currentTree = useSelector(state => fetchUser(state, user_id));
 
     useEffect(() => {
-        dispatch(fetchLeaves());
+        if (user_id) {
+            dispatch(fetchLeavesByUserId(user_id));
+        }
         dispatch(fetchUsers());
-    }, [dispatch]);
+    }, [dispatch, user_id]);
+
 
     return (
         <div>

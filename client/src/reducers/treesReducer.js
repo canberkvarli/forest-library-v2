@@ -5,7 +5,12 @@ import {
   RECEIVE_TREE,
 } from "../actions/treeActions";
 
-const TreesReducer = (state = { users: {}, trees: {} }, action) => {
+const initialState = {
+  users: {},
+  trees: {},
+};
+
+const TreesReducer = (state = initialState, action) => {
   Object.freeze(state);
   let newState = { ...state };
 
@@ -13,41 +18,43 @@ const TreesReducer = (state = { users: {}, trees: {} }, action) => {
     case RECEIVE_TREES:
       return {
         ...newState,
-        trees: action.trees.reduce((acc, tree) => {
-          acc[tree._id] = tree;
-          return acc;
-        }, {}),
+        trees: {
+          ...newState.trees,
+          ...action.trees.reduce((acc, tree) => {
+            acc[tree._id] = tree;
+            return acc;
+          }, {}),
+        },
       };
 
     case RECEIVE_TREE:
+      if (!action.tree) return newState; // Prevent crashes if undefined
       return {
         ...newState,
-        trees: {
-          ...newState.trees,
-          [action.tree._id]: action.tree,
-        },
+        trees: { ...newState.trees, [action.tree._id]: action.tree },
       };
 
     case RECEIVE_USERS:
       return {
         ...newState,
-        users: action.users.reduce((acc, user) => {
-          acc[user._id] = user;
-          return acc;
-        }, {}),
-      };
-
-    case RECEIVE_NEW_TREE:
-      return {
-        ...newState,
-        trees: {
-          ...newState.trees,
-          [action.tree._id]: action.tree,
+        users: {
+          ...newState.users,
+          ...action.users.reduce((acc, user) => {
+            acc[user._id] = user;
+            return acc;
+          }, {}),
         },
       };
 
+    case RECEIVE_NEW_TREE:
+      if (!action.tree) return newState;
+      return {
+        ...newState,
+        trees: { ...newState.trees, [action.tree._id]: action.tree },
+      };
+
     default:
-      return state;
+      return newState;
   }
 };
 

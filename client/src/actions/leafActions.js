@@ -4,12 +4,14 @@ import {
   updateLeaf,
   getLeaf,
   deleteLeaf,
+  getLeavesByUserId,
 } from "../utils/leafApiUtil";
 
 export const RECEIVE_LEAVES = "RECEIVE_LEAVES";
 export const RECEIVE_LEAF = "RECEIVE_LEAF";
 export const RECEIVE_NEW_LEAF = "RECEIVE_NEW_LEAF";
 export const REMOVE_LEAF = "REMOVE_LEAF";
+export const RECEIVE_LEAVES_BY_USER_ID = "RECEIVE_LEAVES_BY_USER_ID";
 
 // Action Creators
 export const receiveLeaves = (leaves) => ({
@@ -30,6 +32,11 @@ export const receiveNewLeaf = (leaf) => ({
 export const removeLeaf = (leafId) => ({
   type: REMOVE_LEAF,
   leafId,
+});
+
+export const receiveLeavesByUserId = (leaves) => ({
+  type: RECEIVE_LEAVES_BY_USER_ID,
+  leaves,
 });
 
 // Thunk Actions
@@ -55,15 +62,30 @@ export const fetchLeaf = (id) => async (dispatch) => {
   }
 };
 
+export const fetchLeavesByUserId = (userId) => async (dispatch) => {
+  try {
+    const response = await getLeavesByUserId(userId);
+    if (response) {
+      dispatch(receiveLeavesByUserId(response));
+    }
+  } catch (err) {
+    console.error("Error fetching leaves by user ID:", err);
+  }
+};
+
 export const createLeaf = (data) => async (dispatch) => {
   try {
     console.log("Sending leaf creation data:", data); // ✅ Debugging
 
     const response = await addALeaf(data);
+    if (response) {
+      console.log("Response from createLeaf:", response); // ✅ Debugging
+      console.log("Dispatching RECEIVE_NEW_LEAF action...");
 
-    if (response && response.data) {
-      console.log("Response from createLeaf:", response.data); // ✅ Debugging
-      dispatch(receiveNewLeaf(response.data));
+      dispatch(receiveNewLeaf(response)); // ✅ Ensure this runs
+      console.log("Fetching updated tree..."); // ✅ Debugging
+
+      console.log("RECEIVE_NEW_LEAF dispatched successfully!"); // ✅ Debugging
     }
   } catch (err) {
     console.error("Error creating leaf:", err);

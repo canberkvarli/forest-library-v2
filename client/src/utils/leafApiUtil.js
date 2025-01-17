@@ -54,7 +54,6 @@ export const deleteLeaf = (leaf) => {
 export const getLeavesByTreeId = async (treeId) => {
   try {
     const response = await axios.get(`/api/leaves/tree/${treeId}`);
-    console.log("Leaves fetched for tree:", response.data); // Debugging log
     return response.data;
   } catch (error) {
     console.error("Error fetching leaves by tree ID:", error);
@@ -64,7 +63,6 @@ export const getLeavesByTreeId = async (treeId) => {
 export const getLeavesByUserId = async (userId) => {
   try {
     const response = await axios.get(`/api/leaves/user/${userId}`);
-    console.log("Leaves fetched for user:", response.data); // Debugging log
     return response.data;
   } catch (error) {
     console.error("Error fetching leaves by user ID:", error);

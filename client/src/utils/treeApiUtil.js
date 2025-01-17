@@ -17,6 +17,7 @@ export const getTrees = async () => {
 export const getTree = async (treeId) => {
   try {
     const response = await axios.get(`/api/trees/${treeId}`);
+    console.log("API Response for getTree:", response.data); // ✅ Debugging
     return response.data;
   } catch (error) {
     console.error(
