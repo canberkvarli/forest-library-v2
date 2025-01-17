@@ -75,17 +75,10 @@ export const fetchLeavesByUserId = (userId) => async (dispatch) => {
 
 export const createLeaf = (data) => async (dispatch) => {
   try {
-    console.log("Sending leaf creation data:", data); // ✅ Debugging
-
     const response = await addALeaf(data);
+
     if (response) {
-      console.log("Response from createLeaf:", response); // ✅ Debugging
-      console.log("Dispatching RECEIVE_NEW_LEAF action...");
-
-      dispatch(receiveNewLeaf(response)); // ✅ Ensure this runs
-      console.log("Fetching updated tree..."); // ✅ Debugging
-
-      console.log("RECEIVE_NEW_LEAF dispatched successfully!"); // ✅ Debugging
+      dispatch(receiveNewLeaf(response));
     }
   } catch (err) {
     console.error("Error creating leaf:", err);

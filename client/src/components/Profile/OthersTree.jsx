@@ -19,12 +19,12 @@ const OthersTree = () => {
     );
     const currentTree = useSelector(state => fetchUser(state, user_id));
 
-    useEffect(() => {
-        if (user_id) {
-            dispatch(fetchLeavesByUserId(user_id));
-        }
-        dispatch(fetchUsers());
-    }, [dispatch, user_id]);
+    // useEffect(() => {
+    //     if (user_id) {
+    //         dispatch(fetchLeavesByUserId(user_id));
+    //     }
+    //     dispatch(fetchUsers());
+    // }, [dispatch, user_id]);
 
 
     return (

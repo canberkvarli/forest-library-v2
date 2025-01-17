@@ -7,13 +7,12 @@ const Profile = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [leafData, setLeafData] = useState({ title: "", author: "", category: "" });
     const dispatch = useDispatch();
-
     const currentUser = useSelector((state) => state.session.user);
     const treeId = useSelector((state) => {
         return state.entities.trees.users[currentUser.id]?.tree;
     });
 
-    const handleAddLeaf = (e) => {
+    const handleAddLeaf = async (e) => {
         e.preventDefault();
 
         if (!treeId) {
@@ -21,7 +20,12 @@ const Profile = () => {
             return;
         }
 
-        dispatch(createLeaf({ ...leafData, userId: currentUser.id, treeId }));
+        try {
+            await dispatch(createLeaf({ ...leafData, userId: currentUser.id, treeId }));
+        } catch (error) {
+            console.error("Error adding leaf:", error);
+        }
+
         setLeafData({ title: "", author: "", category: "" });
         setIsModalOpen(false);
     };
