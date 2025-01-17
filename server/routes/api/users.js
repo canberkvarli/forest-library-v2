@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { check, validationResult } from "express-validator";
 import User from "../../models/User.js";
+import Tree from "../../models/Tree.js";
 import validateRegisterInput from "../../validation/register.js";
 
 const router = express.Router();
@@ -38,12 +39,23 @@ router.post(
           .json({ errors: { username: "Username is already taken" } });
       }
 
+      // ✅ Hash password
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
 
+      // ✅ Create new user
       const newUser = new User({ username, password: hashedPassword });
       const savedUser = await newUser.save();
 
+      // ✅ Create a new tree associated with this user
+      const newTree = new Tree({ userId: savedUser.id });
+      const savedTree = await newTree.save();
+
+      // ✅ Update the user with the tree ID
+      savedUser.tree = savedTree._id;
+      await savedUser.save();
+
+      // ✅ Generate JWT token
       const payload = { id: savedUser.id, username: savedUser.username };
       const token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "1h",
@@ -52,7 +64,11 @@ router.post(
       res.status(200).json({
         success: true,
         token: `Bearer ${token}`,
-        user: { id: savedUser.id, username: savedUser.username },
+        user: {
+          id: savedUser.id,
+          username: savedUser.username,
+          tree: savedUser.tree,
+        },
       });
     } catch (err) {
       console.error(err.message);
