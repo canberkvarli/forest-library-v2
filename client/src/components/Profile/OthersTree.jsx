@@ -24,9 +24,6 @@ const OthersTree = () => {
         dispatch(fetchUsers());
     }, [dispatch]);
 
-
-    console.log("current ")
-
     return (
         <div>
             <div className='profile-page-container'>

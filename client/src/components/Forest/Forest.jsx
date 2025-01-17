@@ -10,13 +10,13 @@ const Forest = () => {
     const dispatch = useDispatch();
     const loggedIn = useSelector((state) => state.session.isAuthenticated);
     const user = useSelector((state) => state.session.user);
-    const trees = useSelector((state) => state.entities.trees);
+    const trees = useSelector((state) => state.entities.trees.users);
     const [showAuthModal, setShowAuthModal] = useState(false);
 
     // Initial fetch of trees and users
     useEffect(() => {
         dispatch(fetchTrees());
-        dispatch(fetchUsers());
+        dispatch(fetchUsers()).catch(err => console.error("Error fetching users:", err));
     }, [dispatch]);
 
     const renderForestContent = () => {

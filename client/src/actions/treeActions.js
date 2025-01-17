@@ -41,24 +41,25 @@ export const receiveUser = (user) => ({
 // Thunk Actions
 export const fetchTrees = () => async (dispatch) => {
   try {
-    const response = await getTrees();
-    if (response && response.data) {
-      const trees = response.data;
+    const trees = await getTrees();
+    if (trees && trees.length > 0) {
       dispatch(receiveTrees(trees));
+    } else {
+      console.error("Trees data is missing in the response:", trees);
     }
   } catch (err) {
     console.error("Error fetching trees:", err);
   }
 };
 
+
 export const fetchUsers = () => async (dispatch) => {
   try {
-    const response = await getUsers(); // Ensure the promise is resolved
-    if (response && response.data) {
-      const users = response.data; // Extract the data portion
-      dispatch(receiveUsers(users)); // Dispatch the action with the users data
+    const users = await getUsers(); // ✅ No need to extract `data` again
+    if (users && users.length > 0) {
+      dispatch(receiveUsers(users)); // ✅ Dispatch correct user data
     } else {
-      console.error("Users data is missing in the response:", response);
+      console.error("Users data is missing in the response:", users);
     }
   } catch (err) {
     console.error("Error fetching users:", err);

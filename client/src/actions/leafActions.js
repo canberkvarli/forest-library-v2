@@ -57,9 +57,12 @@ export const fetchLeaf = (id) => async (dispatch) => {
 
 export const createLeaf = (data) => async (dispatch) => {
   try {
+    console.log("Sending leaf creation data:", data); // ✅ Debugging
+
     const response = await addALeaf(data);
+
     if (response && response.data) {
-      console.log("Response from createLeaf:", response.data);
+      console.log("Response from createLeaf:", response.data); // ✅ Debugging
       dispatch(receiveNewLeaf(response.data));
     }
   } catch (err) {

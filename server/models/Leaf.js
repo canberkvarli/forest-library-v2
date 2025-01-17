@@ -10,6 +10,7 @@ const LeafSchema = new Schema({
   treeId: {
     type: Schema.Types.ObjectId,
     ref: "Tree",
+    required: true,
   },
   category: {
     type: String,

@@ -1,48 +1,67 @@
 import axios from "axios";
 
+// ✅ GET ALL TREES (with leaves populated)
 export const getTrees = async () => {
   try {
     const response = await axios.get("/api/trees");
-    return response.data; // Ensure you return the data part of the response
-  } catch (error) {
-    console.error("Error fetching trees:", error);
-  }
-};
-
-export const getTree = (userId) => {
-  try {
-    const response = axios.get(`/api/trees/${userId}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching tree:", error);
+    console.error(
+      "Error fetching trees:",
+      error.response?.data || error.message
+    );
   }
 };
 
-export const createTree = (data) => {
+// ✅ GET SINGLE TREE
+export const getTree = async (treeId) => {
   try {
-    const response = axios.post("/api/trees", data);
+    const response = await axios.get(`/api/trees/${treeId}`);
     return response.data;
   } catch (error) {
-    console.error("Error creating tree:", error);
+    console.error(
+      "Error fetching tree:",
+      error.response?.data || error.message
+    );
   }
 };
 
+// ✅ CREATE TREE
+export const createTree = async (data) => {
+  try {
+    const response = await axios.post("/api/trees", data);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error creating tree:",
+      error.response?.data || error.message
+    );
+  }
+};
+
+// ✅ GET ALL USERS
 export const getUsers = async () => {
   try {
     const response = await axios.get("/api/users");
-    console.log("Response from getUsers:", response); // Log the response for debugging
-    return response; // Return the full response object, not just the data
+    return response.data; // ✅ Only return the `data` portion
   } catch (error) {
-    console.error("Error fetching users:", error);
-    throw error; // Re-throw error to be caught by the calling function
+    console.error(
+      "Error fetching users:",
+      error.response?.data || error.message
+    );
+    throw error;
   }
 };
 
-export const getUser = (userId) => {
+// ✅ GET SINGLE USER
+export const getUser = async (userId) => {
   try {
-    const response = axios.get(`/api/users/${userId}`);
+    const response = await axios.get(`/api/users/${userId}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching user:", error);
+    console.error(
+      "Error fetching user:",
+      error.response?.data || error.message
+    );
   }
 };

@@ -2,19 +2,28 @@
 /* eslint-disable react/prop-types */
 import { LuLeafyGreen } from "react-icons/lu";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchTree } from "../../actions/treeActions";
 import trunkImage from "../../assets/images/trunk.svg";
 
-const MyTree = ({ leaves }) => {
+const MyTree = () => {
     const { user_id } = useParams();
+    const dispatch = useDispatch();
 
-    const user = useSelector((state) => {
-        const trees = Object.values(state.entities.trees);
-        return trees.find((tree) => tree._id === user_id);
-    });
+    const user = useSelector((state) => state.entities.trees.users[user_id]);
 
-    console.log("user_id", user_id);
-    console.log("user", user);
+    const treeId = user?.tree;
+
+    const tree = useSelector((state) => treeId ? state.entities.trees.trees[treeId] : null);
+
+    const leaves = tree?.leaves || [];
+
+    useEffect(() => {
+        if (treeId && !tree) {
+            dispatch(fetchTree(treeId));
+        }
+    }, [dispatch, treeId, tree]);
 
     const handleLeafClick = (leaf) => alert(`Selected Leaf: ${leaf.title}`);
 
@@ -26,12 +35,12 @@ const MyTree = ({ leaves }) => {
             <div className="tree-container">
                 {leaves.map((leaf) => (
                     <div key={leaf._id} className="leaf-wrapper">
-                        <LuLeafyGreen className="tree-leaf" onClick={() => handleLeafClick(leaf)} />
+                        <LuLeafyGreen size={25} className="tree-leaf" onClick={() => handleLeafClick(leaf)} />
                         <span className="leaf-label">{leaf.title}</span>
                     </div>
                 ))}
             </div>
-            <img src={trunkImage} alt="Tree Trunk" className="w-28 mt-4" />
+            <img src={trunkImage} alt="Tree Trunk" className="w-28" />
         </div>
     );
 };

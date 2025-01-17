@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchLeaves, createLeaf } from "../../actions/leafActions";
-import { fetchTrees } from "../../actions/treeActions";
+import { createLeaf } from "../../actions/leafActions";
 import MyTree from "../MyTree/MyTree";
 
 const Profile = () => {
@@ -10,21 +9,23 @@ const Profile = () => {
     const dispatch = useDispatch();
 
     const currentUser = useSelector((state) => state.session.user);
-    const leaves = useSelector((state) =>
-        Object.values(state.entities.leaves).filter((leaf) => leaf.userId === currentUser.id)
-    );
-
-    useEffect(() => {
-        dispatch(fetchLeaves());
-        dispatch(fetchTrees());
-    }, [dispatch]);
+    const treeId = useSelector((state) => {
+        return state.entities.trees.users[currentUser.id]?.tree;
+    });
 
     const handleAddLeaf = (e) => {
         e.preventDefault();
-        dispatch(createLeaf({ ...leafData, userId: currentUser.id }));
+
+        if (!treeId) {
+            console.error("Error: No tree ID found for user.");
+            return;
+        }
+
+        dispatch(createLeaf({ ...leafData, userId: currentUser.id, treeId }));
         setLeafData({ title: "", author: "", category: "" });
         setIsModalOpen(false);
     };
+
 
     return (
         <div className="min-h-screen bg-green-50 flex flex-col items-center py-8">
@@ -46,7 +47,6 @@ const Profile = () => {
                 <div className="lg:w-2/3 flex flex-col items-center">
                     <MyTree
                         currentUserId={currentUser.id}
-                        leaves={leaves}
                         username={currentUser.username}
                     />
                 </div>
