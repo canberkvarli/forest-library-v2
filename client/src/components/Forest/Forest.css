@@ -1,182 +1,183 @@
 html {
-  color: whitesmoke;
-}
-.forest {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: stretch;
-  justify-content: space-around;
-  /* align-items: center; */
-  overflow-y: scroll;
-  height: 475px;
-  margin: 10px 5px;
-}
-.welcome-user {
-  text-align: center;
-  padding: 25px 0;
-  color: #222726;
-
-  font-family: cursive;
-  font-size: 40px;
-}
-
-.advertisement {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-family: cursive;
-  font-size: 20px;
-  color: #222726;
-  margin: auto;
-  width: 700px;
-  padding: 15px 0;
-  text-align: center;
-  line-height: 28px;
-  margin-top: 20px;
-}
-#main-advertisement {
-  font-family: cursive;
-  font-size: 30px;
-  display: flex;
-  margin-top: 25px;
-  margin:auto;
-
-}
-
-.bottom-section {
-  display:flex;
-  height: 200px;
-  color: #222726;
-  font-family: cursive;
-  font-size: 20px;
-  margin-top: 20px;
-  flex-direction: column;
-  align-items: center;
-  /* margin-bottom: 100px; */
-}
-
-.bottom-ad-title {
-  margin-top: 25px;
-  font-size: 33px;
-  /* display: flex; */
-  /* margin-left: 550px; */
-  text-align: center;
-  width: 600px;
-}
-
-.bottom-ad-desc {
-  padding: 10px;
-  /* margin-left: 700px; */
-  width: 600px;
-  /* position: absolute; */
-  margin-top: 15px;
-}
-.outer-forest {
-  border-radius: 50px;
-  margin: auto;
-  display: flex;
-  width: 600px;
-  height: 501px;
-  position: relative;
-  /* margin-left: 290px; */
-  background-color: #222726;
-  border: 7px solid #2f4f4f;
-  flex-wrap: wrap;
-  /* align-content: space-between; */
-  justify-content: space-around;
-}
-
-.tree {
-  position: relative;
-  display: flex;
-  padding: 2px;
-  font-size: 11.5px;
-  align-items: center;
-  flex-direction: column;
-  margin: 10px;
-  height: min-content;
-}
-
-.tree-username {
-  display: flex;
-  padding: 4px;
-  justify-content: space-evenly;
-  align-items: stretch;
-  color: #edf4e0;
-  font-size: large;
-}
-/* .tree-username:hover{
-  color: rgb(255, 156, 62);
-  box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
-} */
-
-.links {
-  text-decoration: none;
-  font-family: Arial, Helvetica, sans-serif;
-}
-.tree-images {
-  width: 55px;
-  /* border: solid 1px black; */
-}
-
-.tree-images:hover {
-  /* color: rgb(255, 255, 255); */
-  /* box-shadow: 0 5px 15px rgb(238, 255, 0); */
-  border-radius: 50%;
-  /* width: 65px; */
-  transform: scale(1.05);
-  position: relative;
-}
-
-.tree-info {
-  position: absolute;
-}
-
-.book-club-title {
-  color: red;
-  margin-top: -120px;
-  margin-left: 200;
-  margin-left: 195px;
-  position: absolute;
-  margin-bottom: 350px;
-}
-
-.music-icon {
-  width: 20px;
-  height: 20px;
-  margin-top: 5px;
-  margin-left: 5px;
-}
-
-.forest::-webkit-scrollbar {
-  width: 10px;
-}
-
-.forest::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
-.forest::-webkit-scrollbar-thumb {
-  background-color: #4b8677;
-  border-radius: 20px;
-}
-.tooltip {
+    color: whitesmoke;
+  }
+  .forest {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: space-around;
+    /* align-items: center; */
+    overflow-y: scroll;
+    height: 475px;
+    margin: 10px 5px;
+  }
+  .welcome-user {
+    text-align: center;
+    padding: 25px 0;
+    color: #222726;
+  
+    font-family: cursive;
+    font-size: 40px;
+  }
+  
+  .advertisement {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: cursive;
+    font-size: 20px;
+    color: #222726;
+    margin: auto;
+    width: 700px;
+    padding: 15px 0;
+    text-align: center;
+    line-height: 28px;
+    margin-top: 20px;
+  }
+  #main-advertisement {
+    font-family: cursive;
+    font-size: 30px;
+    display: flex;
+    margin-top: 25px;
+    margin:auto;
+  
+  }
+  
+  .bottom-section {
+    display:flex;
+    height: 200px;
+    color: #222726;
+    font-family: cursive;
+    font-size: 20px;
+    margin-top: 20px;
+    flex-direction: column;
+    align-items: center;
+    /* margin-bottom: 100px; */
+  }
+  
+  .bottom-ad-title {
+    margin-top: 25px;
+    font-size: 33px;
+    /* display: flex; */
+    /* margin-left: 550px; */
+    text-align: center;
+    width: 600px;
+  }
+  
+  .bottom-ad-desc {
+    padding: 10px;
+    /* margin-left: 700px; */
+    width: 600px;
+    /* position: absolute; */
+    margin-top: 15px;
+  }
+  .outer-forest {
+    border-radius: 50px;
+    margin: auto;
+    display: flex;
+    width: 600px;
+    height: 501px;
+    position: relative;
+    /* margin-left: 290px; */
+    background-color: #222726;
+    border: 7px solid #2f4f4f;
+    flex-wrap: wrap;
+    /* align-content: space-between; */
+    justify-content: space-around;
+  }
+  
+  .tree {
+    position: relative;
+    display: flex;
+    padding: 2px;
+    font-size: 11.5px;
+    align-items: center;
+    flex-direction: column;
+    margin: 10px;
+    height: min-content;
+  }
+  
+  .tree-username {
+    display: flex;
+    padding: 4px;
+    justify-content: space-evenly;
+    align-items: stretch;
+    color: #edf4e0;
+    font-size: large;
+  }
+  /* .tree-username:hover{
+    color: rgb(255, 156, 62);
+    box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+  } */
+  
+  .links {
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .tree-images {
+    width: 55px;
+    /* border: solid 1px black; */
+  }
+  
+  .tree-images:hover {
+    /* color: rgb(255, 255, 255); */
+    /* box-shadow: 0 5px 15px rgb(238, 255, 0); */
+    border-radius: 50%;
+    /* width: 65px; */
+    transform: scale(1.05);
+    position: relative;
+  }
+  
+  .tree-info {
     position: absolute;
-    bottom: 85%; /* Position the tooltip above the tree */
-    left: 50%; /* Center it horizontally */
-    transform: translateX(-50%); /* Adjust for perfect centering */
-    background-color: black;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    opacity: 0;
-    visibility: hidden; /* Initially hidden */
-    transition: opacity 0.3s, visibility 0.3s;
-}
-
-/* Show the tooltip when the parent is hovered */
-.tree:hover .tooltip {
-    opacity: 1;
-    visibility: visible;
-}
+  }
+  
+  .book-club-title {
+    color: red;
+    margin-top: -120px;
+    margin-left: 200;
+    margin-left: 195px;
+    position: absolute;
+    margin-bottom: 350px;
+  }
+  
+  .music-icon {
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+  
+  .forest::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .forest::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  .forest::-webkit-scrollbar-thumb {
+    background-color: #4b8677;
+    border-radius: 20px;
+  }
+  .tooltip {
+      position: absolute;
+      bottom: 85%; /* Position the tooltip above the tree */
+      left: 50%; /* Center it horizontally */
+      transform: translateX(-50%); /* Adjust for perfect centering */
+      background-color: black;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      opacity: 0;
+      visibility: hidden; /* Initially hidden */
+      transition: opacity 0.3s, visibility 0.3s;
+  }
+  
+  /* Show the tooltip when the parent is hovered */
+  .tree:hover .tooltip {
+      opacity: 1;
+      visibility: visible;
+  }
+  
