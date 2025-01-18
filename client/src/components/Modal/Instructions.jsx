@@ -1,5 +1,5 @@
 import "./instructions.css";
-import "../forest/forest.css";
+import "../Forest/forest.css";
 import { HiOutlineMusicNote } from "react-icons/hi";
 
 const Instructions = () => {
