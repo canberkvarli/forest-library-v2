@@ -7,8 +7,11 @@ import { fetchLeavesByUserId, deleteLeafData, updateLeafData } from "../../actio
 import trunkImage from "../../assets/images/trunk.svg";
 
 const MyTree = () => {
-    const { user_id } = useParams();
+    const { user_id } = useParams();  // ID of the tree owner
     const dispatch = useDispatch();
+
+    const loggedInUserId = useSelector((state) => state.session.user?.id);  // Logged-in user ID
+    const isOwner = loggedInUserId === user_id; // Check if the logged-in user owns this tree
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -27,7 +30,6 @@ const MyTree = () => {
             dispatch(fetchLeavesByUserId(user_id));
         }
     }, [dispatch, treeId, user_id]);
-
 
     const bushSize = Math.min(10 + leaves.length * 0.5, 18);
     const spreadRadius = Math.max(2, bushSize / 3);
@@ -58,11 +60,6 @@ const MyTree = () => {
         }
 
         try {
-            console.log("Selected Leaf ID:", selectedLeaf._id);
-            console.log("Updated Data:", editedLeaf);
-
-            console.log("User ID for fetching leaves:", user_id);
-
             await dispatch(updateLeafData({ ...editedLeaf, _id: selectedLeaf._id, userId: user_id }));
 
             setShowEditModal(false);
@@ -71,7 +68,6 @@ const MyTree = () => {
             console.error("Error updating leaf:", error);
         }
     };
-
 
     return (
         <div className="flex flex-col items-center">
@@ -100,10 +96,11 @@ const MyTree = () => {
                                     transform: `translate(${x}rem, ${y}rem)`,
                                 }}
                             >
+                                {/* If it's the owner's tree, clicking allows edit; otherwise, just shows details */}
                                 <LuLeafyGreen
-                                    onClick={() => openEditModal(leaf)}
+                                    onClick={isOwner ? () => openEditModal(leaf) : null}
                                     size={22}
-                                    className="cursor-pointer text-green-700 group-hover:text-green-900 transition duration-200"
+                                    className={`cursor-pointer text-green-700 ${isOwner ? "group-hover:text-green-900" : ""} transition duration-200`}
                                 />
                                 <p className="font-semibold text-xs">{leaf.title}</p>
 
@@ -111,20 +108,23 @@ const MyTree = () => {
                                     <p className="font-semibold">{leaf.title}</p>
                                     <p className="italic text-gray-600">{leaf.author}</p>
 
-                                    <div className="mt-2 flex justify-between space-x-2">
-                                        <button
-                                            onClick={() => openEditModal(leaf)}
-                                            className="text-blue-600 hover:underline text-xs"
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => openRemoveModal(leaf)}
-                                            className="text-red-600 hover:underline text-xs"
-                                        >
-                                            Remove
-                                        </button>
-                                    </div>
+                                    {/* Only show edit/remove buttons if the logged-in user owns this tree */}
+                                    {isOwner && (
+                                        <div className="mt-2 flex justify-between space-x-2">
+                                            <button
+                                                onClick={() => openEditModal(leaf)}
+                                                className="text-blue-600 hover:underline text-xs"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => openRemoveModal(leaf)}
+                                                className="text-red-600 hover:underline text-xs"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         );
@@ -137,7 +137,7 @@ const MyTree = () => {
             <img src={trunkImage} alt="Tree Trunk" className="w-16" />
 
             {/* 🛑 Delete Confirmation Modal */}
-            {showDeleteModal && (
+            {showDeleteModal && isOwner && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="bg-white rounded-lg shadow-lg p-6 w-80">
                         <h2 className="text-lg font-semibold text-gray-800">Remove Leaf</h2>
@@ -163,7 +163,7 @@ const MyTree = () => {
             )}
 
             {/* ✏️ Edit Leaf Modal */}
-            {showEditModal && (
+            {showEditModal && isOwner && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="bg-white rounded-lg shadow-lg p-6 w-96">
                         <h2 className="text-lg font-semibold text-gray-800">Edit Leaf</h2>
@@ -184,7 +184,7 @@ const MyTree = () => {
                                 onChange={(e) => setEditedLeaf({ ...editedLeaf, author: e.target.value })}
                                 className="w-full p-2 border border-gray-400 rounded bg-gray-100 text-gray-900 font-bold"
                             />
-
+    
                             <label className="block text-gray-700 font-semibold">Category</label>
                             <input
                                 type="text"

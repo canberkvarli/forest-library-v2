@@ -25,7 +25,6 @@ export const getLeaf = async (id) => {
 export const addALeaf = async (leaf) => {
   try {
     const response = await axios.post("/api/leaves", leaf);
-    console.log("Leaf added successfully", response.data); // Debugging log
     return response.data;
   } catch (error) {
     console.error("Error adding leaf:", error);

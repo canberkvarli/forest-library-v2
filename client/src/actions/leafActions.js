@@ -100,7 +100,6 @@ export const updateLeafData = (leaf) => async (dispatch, getState) => {
       return;
     }
 
-    console.log("Fetching updated leaves for user:", userId);
     dispatch(fetchLeavesByUserId(userId));
   } catch (err) {
     console.error("Error updating leaf:", err);

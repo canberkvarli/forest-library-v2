@@ -11,7 +11,6 @@ const resetDatabase = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("Database connected successfully");
 
     // Delete all documents in the collections
     await User.deleteMany();
