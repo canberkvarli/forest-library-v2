@@ -101,9 +101,11 @@ const MyTree = () => {
                                 }}
                             >
                                 <LuLeafyGreen
+                                    onClick={() => openEditModal(leaf)}
                                     size={22}
                                     className="cursor-pointer text-green-700 group-hover:text-green-900 transition duration-200"
                                 />
+                                <p className="font-semibold text-xs">{leaf.title}</p>
 
                                 <div className="z-50 absolute top-full left-1/2 transform -translate-x-1/2 invisible opacity-0 group-hover:visible group-hover:opacity-100 bg-white text-gray-800 text-xs rounded-md shadow-lg px-3 py-2 max-w-xs transition-all duration-200 mt-1 border border-gray-300">
                                     <p className="font-semibold">{leaf.title}</p>
