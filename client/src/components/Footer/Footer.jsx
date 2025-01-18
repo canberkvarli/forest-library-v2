@@ -1,4 +1,4 @@
-import './footer.css';
+import "./Footer.css";
 
 const Footer = () => (
     <div className="bg-emerald-800 text-emerald-300 px-6 py-6 mt-24 border-t border-emerald-600">
