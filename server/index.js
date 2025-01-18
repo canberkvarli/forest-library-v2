@@ -13,13 +13,13 @@ const NODE_ENV = process.env.NODE_ENV || "production";
 // MIDDLEWARE;
 app.use(
   cors({
-    origin:
-      NODE_ENV === "production"
-        ? "https://forest-library-frontend.onrender.com"
-        : "http://localhost:5173",
+    origin: "https://forest-library-v2.onrender.com",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
+
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
