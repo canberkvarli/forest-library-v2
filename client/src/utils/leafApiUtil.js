@@ -1,8 +1,8 @@
-import axios from "axios";
+import api from "./api";
 
 export const getLeaves = async () => {
   try {
-    const response = await axios.get("/api/leaves");
+    const response = await api.get("/api/leaves");
     return response.data;
   } catch (error) {
     console.error("Error fetching leaves:", error);
@@ -10,12 +10,12 @@ export const getLeaves = async () => {
 };
 
 // export const getUserLeaves = id => {
-//     return axios.get(`/api/leaves/user/${id}`);
+//     return api.get(`/api/leaves/user/${id}`);
 // };
 
 export const getLeaf = async (id) => {
   try {
-    const response = axios.get(`/api/leaves/${id}`);
+    const response = api.get(`/api/leaves/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching leaf:", error);
@@ -24,7 +24,7 @@ export const getLeaf = async (id) => {
 
 export const addALeaf = async (leaf) => {
   try {
-    const response = await axios.post("/api/leaves", leaf);
+    const response = await api.post("/api/leaves", leaf);
     return response.data;
   } catch (error) {
     console.error("Error adding leaf:", error);
@@ -34,7 +34,7 @@ export const addALeaf = async (leaf) => {
 
 export const updateLeaf = (leaf) => {
   try {
-    const response = axios.patch(`/api/leaves/${leaf._id}`, leaf);
+    const response = api.patch(`/api/leaves/${leaf._id}`, leaf);
     return response.data;
   } catch (error) {
     console.error("Error updating leaf:", error);
@@ -43,7 +43,7 @@ export const updateLeaf = (leaf) => {
 
 export const deleteLeaf = async (leafId) => {
   try {
-    const response = await axios.delete(`/api/leaves/${leafId}`);
+    const response = await api.delete(`/api/leaves/${leafId}`);
     return response.data;
   } catch (error) {
     console.error("Error deleting leaf:", error);
@@ -53,7 +53,7 @@ export const deleteLeaf = async (leafId) => {
 
 export const getLeavesByTreeId = async (treeId) => {
   try {
-    const response = await axios.get(`/api/leaves/tree/${treeId}`);
+    const response = await api.get(`/api/leaves/tree/${treeId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching leaves by tree ID:", error);
@@ -62,7 +62,7 @@ export const getLeavesByTreeId = async (treeId) => {
 
 export const getLeavesByUserId = async (userId) => {
   try {
-    const response = await axios.get(`/api/leaves/user/${userId}`);
+    const response = await api.get(`/api/leaves/user/${userId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching leaves by user ID:", error);

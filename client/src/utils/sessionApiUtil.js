@@ -1,17 +1,17 @@
-import axios from "axios";
+import api from "./api";
 
 export const setAuthToken = (token) => {
   if (token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
-    delete axios.defaults.headers.common["Authorization"];
+    delete api.defaults.headers.common["Authorization"];
   }
 };
 
 export const signup = (userData) => {
-  return axios.post("/api/users/register", userData);
+  return api.post("/api/users/register", userData);
 };
 
 export const login = (userData) => {
-  return axios.post("/api/users/login", userData);
+  return api.post("/api/users/login", userData);
 };

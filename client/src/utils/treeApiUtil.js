@@ -1,9 +1,9 @@
-import axios from "axios";
+import api from "./api";
 
 // ✅ GET ALL TREES (with leaves populated)
 export const getTrees = async () => {
   try {
-    const response = await axios.get("/api/trees");
+    const response = await api.get("/api/trees");
     return response.data;
   } catch (error) {
     console.error(
@@ -16,7 +16,7 @@ export const getTrees = async () => {
 // ✅ GET SINGLE TREE
 export const getTree = async (treeId) => {
   try {
-    const response = await axios.get(`/api/trees/${treeId}`);
+    const response = await api.get(`/api/trees/${treeId}`);
     return response.data;
   } catch (error) {
     console.error(
@@ -29,7 +29,7 @@ export const getTree = async (treeId) => {
 // ✅ CREATE TREE
 export const createTree = async (data) => {
   try {
-    const response = await axios.post("/api/trees", data);
+    const response = await api.post("/api/trees", data);
     return response.data;
   } catch (error) {
     console.error(
@@ -42,7 +42,7 @@ export const createTree = async (data) => {
 // ✅ GET ALL USERS
 export const getUsers = async () => {
   try {
-    const response = await axios.get("/api/users");
+    const response = await api.get("/api/users");
     return response.data; // ✅ Only return the `data` portion
   } catch (error) {
     console.error(
@@ -56,7 +56,7 @@ export const getUsers = async () => {
 // ✅ GET SINGLE USER
 export const getUser = async (userId) => {
   try {
-    const response = await axios.get(`/api/users/${userId}`);
+    const response = await api.get(`/api/users/${userId}`);
     return response.data;
   } catch (error) {
     console.error(

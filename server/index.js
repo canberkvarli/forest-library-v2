@@ -8,17 +8,23 @@ import leaves from "./routes/api/leaves.js";
 
 const app = express();
 const PORT = process.env.PORT || 5001;
+const NODE_ENV = process.env.NODE_ENV || "production";
 
 // MIDDLEWARE;
-
-app.use(cors());
+app.use(
+  cors({
+    origin:
+      NODE_ENV === "production"
+        ? "https://forest-library-frontend.onrender.com"
+        : "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
 // MONGOOSE CONNECTION
-mongoose
-  .connect(process.env.MONGO_URI)
-  .catch((err) => console.log(err));
+mongoose.connect(process.env.MONGO_URI).catch((err) => console.log(err));
 
 // ROUTES
 
