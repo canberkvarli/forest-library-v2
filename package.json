@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\""
+    "start": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
+    "seed": "node server/utils/seed.js"
   },
   "devDependencies": {
     "concurrently": "^8.2.0"

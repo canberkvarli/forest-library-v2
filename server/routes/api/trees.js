@@ -46,7 +46,6 @@ router.get("/", async (req, res) => {
     const trees = await Tree.find()
       .sort({ createdAt: -1 })
       .populate("leaves", "username");
-    console.log("trees", trees);
     res.json(trees);
   } catch (err) {
     console.error("Error fetching trees:", err);
