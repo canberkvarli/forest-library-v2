@@ -28,6 +28,11 @@ mongoose.connect(process.env.MONGO_URI).catch((err) => console.log(err));
 
 // ROUTES
 
+// ✅ Root Route (to check if server is running)
+app.get("/", (req, res) => {
+  res.send("🌳 Forest Library Backend is Running!");
+});
+
 app.use("/api/users", users);
 app.use("/api/trees", trees);
 app.use("/api/leaves", leaves);
